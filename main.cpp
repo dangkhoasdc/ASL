@@ -2,6 +2,8 @@
 #include "detection.h"
 #include "extraction.h"
 #include "classification.h"
+
+
 void training_phase(const string& _filename);
 void testing_phase(const string& _filename);
 int main(int argc, char const* argv[])
@@ -36,8 +38,7 @@ void training_phase(const string& _filename) {
         depth_image.release();
         cv::Mat feature_vector;
 
-        cv::Mat extracted_color_image =extract(detected_color_image);
-        feature_vector.push_back(extracted_color_image);
+        feature_vector.push_back(extract(detected_color_image));
         feature_vector.push_back(extract(detected_depth_image));
 
         detected_color_image.release();
