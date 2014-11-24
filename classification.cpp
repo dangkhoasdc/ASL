@@ -20,9 +20,9 @@ void train_svm(cMatRef _training_data, cMatRef _label ) {
     m_param->class_weights = NULL;
     m_param->term_crit.type = CV_TERMCRIT_ITER + CV_TERMCRIT_EPS;
     m_param->term_crit.max_iter = 100;
-    m_param->term_crit.epsilon = FLT_EPSILON;
+    m_param->term_crit.epsilon = 0.1;
 
-    m_Svm->train_auto(_training_data, _label, cv::Mat(), cv::Mat(), *m_param, 24);
+    m_Svm->train_auto(_training_data, _label, cv::Mat(), cv::Mat(), *m_param);
     m_Svm->save("model.yml");
     if (m_param)
         delete m_param;

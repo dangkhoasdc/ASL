@@ -18,10 +18,8 @@ void init_exp_matrix() {
     }
 }
 cv::Mat extract(ConMatRef _input) {
-    bool debug = false;
     vector<cv::Mat> responses;
     cv::Mat c;
-    int idx = 0;
     // filter an input image to 16 Gabor filters
     //cout << "size of theta : " << SIZEOF_ARR(theta) << endl;
     //cout << "size of sigma: " << SIZEOF_ARR(sigma) << endl;
@@ -29,12 +27,13 @@ cv::Mat extract(ConMatRef _input) {
     for (unsigned int i = 0; i < SIZEOF_ARR(theta); ++i) {
         for (unsigned int j = 0 ; j < SIZEOF_ARR(sigma); ++j) {
             cv::Mat result;
-            cv::Mat kernel = cv::getGaborKernel(cv::Size(5,5),
+            cv::Mat kernel = cv::getGaborKernel(cv::Size(31,31),
                     sigma[j],
                     theta[i],
                     10.0,
                     0.5
                     );
+            //kernel.mul(1.0/(1.5*cv::sum(kernel))) ;
             //cout << endl;
             //cout << "#" << idx++<<  ". sigma =" << sigma[j] << " || theta = " << theta[i] << endl;
             //if (debug ==false) {
@@ -45,9 +44,10 @@ cv::Mat extract(ConMatRef _input) {
                     result,
                     _input.depth(),
                     kernel);
-            //cv::imshow("debug", result);
+#if defined DEBUG_MODE
+            //cv::imshow("debug gabor filter", result);
             //cv::waitKey(0);
-
+#endif
             responses.push_back(result);
         }
     }
@@ -65,7 +65,7 @@ cv::Mat extract(ConMatRef _input) {
             for (int jj = 0; jj < response_size.width; jj++) {
                 cell_value += responses[k].at<float>(ii,jj)
                     //*exp(-(pow(ii - xi, 2.0) + pow(jj - yj,2.0))/squared_width_gaussian);
-                    * exp_matrix[i*HEIGHT_CELL + j].at<float>(ii,jj);
+                    * exp_matrix[i*WIDTH_CELL+ j].at<float>(ii,jj);
             }
             }
             cell.at<float>(i,j) = cell_value;

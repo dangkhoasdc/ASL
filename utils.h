@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <utility>
+#undef DEBUG_MODE
 enum READFILE_RESULT {
     SUCCESS,
     CANNOT_READ_FILE,

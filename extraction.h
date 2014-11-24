@@ -13,7 +13,7 @@ const double PI = 3.1415;
 // TODO: dummy values -> choose reasonable values
 const double theta[] = {0, PI/2.0, PI, PI * 1.50};
 
-const double sigma[] = {1.0, 1.2, 1.6, 2.0};
+const double sigma[] = {2.0, 3.0, 4.0, 5.0};
 
 const int WIDTH_CELL= 8;
 const int HEIGHT_CELL = 8;
