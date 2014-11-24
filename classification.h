@@ -10,6 +10,7 @@ using namespace std;
 
 // use BAYES CLASSIFIER to classify hand pose
 void train(cMatRef _training_data, cMatRef _label );
+void train_svm(cMatRef _training_data, cMatRef _label );
 int predict(const CvSVM& bayes, const cv::Mat& _mat);
 int predict(const CvNormalBayesClassifier& _bayes, const cv::Mat& _mat) ;
 #endif

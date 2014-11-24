@@ -35,7 +35,7 @@ cv::Mat detect_hand_depth(const cv::Mat& _input) {
 cv::Mat normalize_image(const cv::Mat& _image) {
     cv::Mat output;
     cv::resize(_image, output, Normalized_Filter);
-    //output.convertTo(output, CV_32FC1, 1.0/255.0);
-    output.convertTo(output, CV_32FC1 );
+    output.convertTo(output, CV_32FC1, 1.0/255.0);
+    //output.convertTo(output, CV_32FC1 );
     return output;
 }

@@ -17,7 +17,7 @@ void training_phase(const string& _filename) {
     readfile(_filename, training);
     cv::Mat training_set;
     cv::Mat label_set;
-    bool test = false;
+    bool test = true;
     int id = 0;
     for (unsigned int i = 0; i < training.size(); i++) {
         string rgb_filename = training[i].first;
@@ -27,8 +27,11 @@ void training_phase(const string& _filename) {
         cv::Mat color_image_2 = cv::imread(rgb_filename.c_str(),1);
         cv::Mat color_image;
         cv::cvtColor(color_image_2, color_image, CV_BGR2GRAY);
-        cv::Mat depth_image = cv::imread(depth_filename.c_str(),0);
-
+        cv::equalizeHist(color_image, color_image);
+        cv::Mat depth_image_2 = cv::imread(depth_filename.c_str(),1);
+        cv::Mat depth_image;
+        cv::cvtColor(depth_image_2, depth_image, CV_BGR2GRAY);
+        cv::equalizeHist(depth_image, depth_image);
         //cv::Mat detected_color_image = detect_hand_rgb(color_image);
         //cv::Mat detected_depth_image = detect_hand_depth(depth_image);
 
@@ -51,7 +54,7 @@ void training_phase(const string& _filename) {
         }
         feature_vector.release();
         training_set.push_back(normalized_vector);
-        label_set.push_back(training[i].second - 'a');
+        label_set.push_back((float)training[i].second - 'a');
         cout << "....completed" << endl;
         normalized_vector.release();
     }
@@ -66,20 +69,24 @@ void testing_phase(const string& _filename) {
     cv::Mat testing_set;
     cv::Mat label_set;
     int accuracy = 0;
-    //CvSVM svm;
-    //svm.load("model.yml");
-    CvNormalBayesClassifier bayes;
-    bayes.load("model.yml");
+    CvSVM svm;
+    svm.load("model.yml");
+    //CvNormalBayesClassifier bayes;
+    //bayes.load("model.yml");
     cout << "completed 24" << endl;
     for (unsigned int i = 0; i < testing.size(); i++) {
         string rgb_filename = testing[i].first;
         string depth_filename = testing[i].first.replace(testing[i].first.find("color"), 5, "depth");
 
-        cv::Mat color_image = cv::imread(rgb_filename.c_str(),1);
-        cv::Mat depth_image = cv::imread(depth_filename.c_str(),0);
+        cv::Mat color_image_2 = cv::imread(rgb_filename.c_str(),1);
+        cv::Mat color_image;
+        cv::cvtColor(color_image_2, color_image, CV_BGR2GRAY);
+        cv::equalizeHist(color_image, color_image);
 
-        //cv::Mat detected_color_image = detect_hand_rgb(color_image);
-        //cv::Mat detected_depth_image = detect_hand_depth(depth_image);
+        cv::Mat depth_image_2 = cv::imread(depth_filename.c_str(),1);
+        cv::Mat depth_image;
+        cv::cvtColor(depth_image_2, depth_image, CV_BGR2GRAY);
+        cv::equalizeHist(depth_image, depth_image);
 
         cv::Mat detected_color_image = normalize_image(color_image);
         cv::Mat detected_depth_image = normalize_image(depth_image);
@@ -89,10 +96,10 @@ void testing_phase(const string& _filename) {
         feature_vector.push_back(extract(detected_color_image));
         feature_vector.push_back(extract(detected_depth_image));
 
-        cv::Mat normalized_vector = feature_vector.reshape(0,1);
+        cv::Mat normalized_vector = feature_vector.reshape(1,1);
 
-        //int result = predict(svm, normalized_vector);
-        int result = predict(bayes, normalized_vector);
+        int result = predict(svm, normalized_vector);
+        //int result = predict(bayes, normalized_vector);
         if (result == (testing[i].second - 'a')) accuracy++;
     }
 
