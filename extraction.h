@@ -18,6 +18,7 @@ const double sigma[] = {1.0, 1.2, 1.6, 2.0};
 const int WIDTH_CELL= 8;
 const int HEIGHT_CELL = 8;
 const int WIDTH_GAUSSIAN= 8;
-
+extern vector<cv::Mat> exp_matrix;
+void init_exp_matrix();
 cv::Mat extract(ConMatRef _input);
 #endif

@@ -8,6 +8,7 @@ void training_phase(const string& _filename);
 void testing_phase(const string& _filename);
 int main(int argc, char const* argv[])
 {
+    init_exp_matrix();
     training_phase(argv[1]);
     testing_phase(argv[2]);
     return 0;
