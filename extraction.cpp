@@ -27,27 +27,18 @@ cv::Mat extract(ConMatRef _input) {
     for (unsigned int i = 0; i < SIZEOF_ARR(theta); ++i) {
         for (unsigned int j = 0 ; j < SIZEOF_ARR(sigma); ++j) {
             cv::Mat result;
-            cv::Mat kernel = cv::getGaborKernel(cv::Size(31,31),
+            cv::Mat kernel = cv::getGaborKernel(cv::Size(5,5),
                     sigma[j],
                     theta[i],
                     10.0,
                     0.5
                     );
-            //kernel.mul(1.0/(1.5*cv::sum(kernel))) ;
-            //cout << endl;
-            //cout << "#" << idx++<<  ". sigma =" << sigma[j] << " || theta = " << theta[i] << endl;
-            //if (debug ==false) {
-                //cout << kernel << endl;
-                //debug = true;
-            //}
             cv::filter2D(_input,
                     result,
                     _input.depth(),
                     kernel);
-#if defined DEBUG_MODE
-            //cv::imshow("debug gabor filter", result);
-            //cv::waitKey(0);
-#endif
+            cv::imshow("debug gabor filter", result);
+            cv::waitKey(0);
             responses.push_back(result);
         }
     }

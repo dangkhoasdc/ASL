@@ -50,8 +50,9 @@ cv::Mat process_data(const string& _filename) {
     // read ad process depth image
     string depth_filename = filename.replace(filename.find("color"), 5, "depth");
     feature_vector.push_back(process_img(depth_filename));
-
-    return feature_vector.reshape(1,1);
+    cv::Mat normalize_image = feature_vector.reshape(1,1);
+    cv::norm(normalize_image, normalize_image);
+    return normalize_image;
 }
 
 void training_phase(const string& _filename) {
@@ -61,13 +62,10 @@ void training_phase(const string& _filename) {
     cv::Mat label_set;
     for (unsigned int i = 0; i < training.size(); i++) {
         cout << "["<<i<<"]:" << training[i].first << flush;
-        cv::Mat feature_vector = process_data(training[i].first);
-
         // add feature vector to training set
-        training_set.push_back(feature_vector);
-        label_set.push_back(training[i].second - 'a' + 1);
+        training_set.push_back(process_data(training[i].first));
+        label_set.push_back(training[i].second - 'a');
         cout << "....completed" << endl;
-        feature_vector.release();
     }
     //cout << "label:" << label_set << endl;
     cout << "Training ..." << flush;
@@ -89,8 +87,9 @@ void testing_phase(const string& _filename) {
         cv::Mat feature_vector = process_data(testing[i].first);
         int result = predict(svm, feature_vector);
         //int result = predict(bayes, normalized_vector);
-        if (result == (testing[i].second - 'a' + 1)) accuracy++;
+        if (result == (testing[i].second - 'a')) accuracy++;
         feature_vector.release();
+        cout<< endl;
     }
     cout << "result = " << (float) accuracy / testing.size() << endl;
 
