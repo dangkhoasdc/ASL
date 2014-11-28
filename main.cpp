@@ -59,8 +59,6 @@ void training_phase(const string& _filename) {
     readfile(_filename, training);
     cv::Mat training_set;
     cv::Mat label_set;
-    bool test = false;
-    int id = 0;
     for (unsigned int i = 0; i < training.size(); i++) {
         cout << "["<<i<<"]:" << training[i].first << flush;
         cv::Mat feature_vector = process_data(training[i].first);
@@ -82,7 +80,6 @@ void testing_phase(const string& _filename) {
     cv::Mat testing_set;
     cv::Mat label_set;
     int accuracy = 0;
-    int id = 0;
     CvSVM svm;
     svm.load("model.yml");
     //CvNormalBayesClassifier bayes;

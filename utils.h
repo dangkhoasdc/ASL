@@ -16,6 +16,7 @@ enum READFILE_RESULT {
     ERROR_FORMAT
 };
 using namespace std;
+using namespace cv;
 typedef pair<string,char>   InfoData;
 typedef const cv::Mat&      cMatRef;
 typedef vector<InfoData>    DataSet;
