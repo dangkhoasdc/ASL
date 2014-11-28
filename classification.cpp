@@ -14,7 +14,7 @@ void train_svm(cMatRef _training_data, cMatRef _label ) {
     //m_param->coef0 = 0;
 
     //m_param->C = 1;
-    //m_param->nu = 0.0099;
+    m_param->nu = 0.0099;
     //m_param->p = 0.0;
 
     m_param->class_weights = NULL;
