@@ -24,4 +24,5 @@ typedef const cv::Mat&      cMatRef;
 
 // helper functions
 READFILE_RESULT readfile(const string& _filename, DataSet& _infodata);
+void showHistogram(Mat& img) ;
 #endif
