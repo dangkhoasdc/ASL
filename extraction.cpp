@@ -37,8 +37,6 @@ cv::Mat extract(ConMatRef _input) {
                     result,
                     _input.depth(),
                     kernel);
-            cv::imshow("debug gabor filter", result);
-            cv::waitKey(0);
             responses.push_back(result);
         }
     }
