@@ -104,14 +104,14 @@ void training_phase(const string& _filename) {
 
         detected_color_image.release();
 
-        cv::Mat depth_image_2 = cv::imread(depth_filename.c_str(),1);
-        cv::Mat depth_image;
-        cv::cvtColor(depth_image_2, depth_image, CV_BGR2GRAY);
-        cv::equalizeHist(depth_image, depth_image);
-        cv::Mat detected_depth_image = normalize_image(depth_image);
-        depth_image.release();
-        feature_vector.push_back(extract(detected_depth_image));
-        detected_depth_image.release();
+        //cv::Mat depth_image_2 = cv::imread(depth_filename.c_str(),1);
+        //cv::Mat depth_image;
+        //cv::cvtColor(depth_image_2, depth_image, CV_BGR2GRAY);
+        //cv::equalizeHist(depth_image, depth_image);
+        //cv::Mat detected_depth_image = normalize_image(depth_image);
+        //depth_image.release();
+        //feature_vector.push_back(extract(detected_depth_image));
+        //detected_depth_image.release();
 
         cv::Mat normalized_vector = feature_vector.reshape(1,1);
         if (test == false) {
@@ -157,12 +157,12 @@ void testing_phase(const string& _filename) {
         color_image.release();
         color_image_2.release();
 
-        cv::Mat depth_image_2 = cv::imread(depth_filename.c_str(),1);
-        cv::Mat depth_image;
-        cv::cvtColor(depth_image_2, depth_image, CV_BGR2GRAY);
-        cv::equalizeHist(depth_image, depth_image);
-        cv::Mat detected_depth_image = normalize_image(depth_image);
-        feature_vector.push_back(extract(detected_depth_image));
+        //cv::Mat depth_image_2 = cv::imread(depth_filename.c_str(),1);
+        //cv::Mat depth_image;
+        //cv::cvtColor(depth_image_2, depth_image, CV_BGR2GRAY);
+        //cv::equalizeHist(depth_image, depth_image);
+        //cv::Mat detected_depth_image = normalize_image(depth_image);
+        //feature_vector.push_back(extract(detected_depth_image));
 
 
 
