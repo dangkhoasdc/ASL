@@ -61,16 +61,11 @@ void training_phase(const string& _filename) {
     cv::Mat training_set;
     cv::Mat label_set;
     for (unsigned int i = 0; i < training.size(); i++) {
-        cout << "["<<i<<"]:" << training[i].first << flush;
         // add feature vector to training set
         training_set.push_back(process_data(training[i].first));
         label_set.push_back(training[i].second - 'a');
-        cout << "....completed" << endl;
     }
-    //cout << "label:" << label_set << endl;
-    cout << "Training ..." << flush;
     train_svm(training_set,label_set);
-    cout << "Completed" << endl;
 }
 void testing_phase(const string& _filename) {
     vector<InfoData> testing;
@@ -91,6 +86,4 @@ void testing_phase(const string& _filename) {
         feature_vector.release();
         cout<< endl;
     }
-    cout << "result = " << (float) accuracy / testing.size() << endl;
-
 }

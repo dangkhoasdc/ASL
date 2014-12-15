@@ -20,9 +20,6 @@ void init_exp_matrix() {
 cv::Mat extract(ConMatRef _input) {
     vector<cv::Mat> responses;
     cv::Mat c;
-    // filter an input image to 16 Gabor filters
-    //cout << "size of theta : " << SIZEOF_ARR(theta) << endl;
-    //cout << "size of sigma: " << SIZEOF_ARR(sigma) << endl;
 
     for (unsigned int i = 0; i < SIZEOF_ARR(theta); ++i) {
         for (unsigned int j = 0 ; j < SIZEOF_ARR(sigma); ++j) {
@@ -42,18 +39,14 @@ cv::Mat extract(ConMatRef _input) {
     }
     cv::Size response_size = responses[0].size();
 
-    //float squared_width_gaussian = 2 * WIDTH_GAUSSIAN * WIDTH_GAUSSIAN;
     for (int k = 0; k < 16; k++) {
         cv::Mat cell(HEIGHT_CELL, WIDTH_CELL,CV_32FC1);
         for (int i = 0; i < HEIGHT_CELL; i++) {
         for (int j = 0; j < WIDTH_CELL; j++) {
             float cell_value = 0;
-            //float xi = 16 * i - 8;
-            //float yj = 16 * j - 8;
             for (int ii = 0; ii < response_size.height; ii++) {
             for (int jj = 0; jj < response_size.width; jj++) {
                 cell_value += responses[k].at<float>(ii,jj)
-                    //*exp(-(pow(ii - xi, 2.0) + pow(jj - yj,2.0))/squared_width_gaussian);
                     * exp_matrix[i*WIDTH_CELL+ j].at<float>(ii,jj);
             }
             }
